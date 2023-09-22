@@ -1,9 +1,10 @@
 import {Router} from "express";
-import {registerUser,loginUser,verifyOtp,resendOtp} from "../controllers/authController.js"
+import {registerUser,loginUser,verifyOtp,resendOtp} from "../controllers/authController.js";
+import {registerValidation, loginValidation, verifyOtpValidation, resendOtpValidation} from "../middlewares/validationMiddleware.js"
 const router = Router();
 
-router.post("/register",registerUser);
-router.post("/login",loginUser);
-router.post("/verify-email",verifyOtp);
-router.get("/resend-otp",resendOtp);
+router.post("/register",registerValidation,registerUser);
+router.post("/login",loginValidation,loginUser);
+router.post("/verify-email",verifyOtpValidation,verifyOtp);
+router.get("/resend-otp",resendOtpValidation,resendOtp);
 export default router;

@@ -3,7 +3,7 @@ const notFoundHandler = (req,res) => {
 }
 
 const errorHanler = (err,req,res,next) =>  {
-    const status = res.statuCode || 500;
+    const status = res.statusCode || 500;
     const message = err.message || "Internal server error."
     return res.status(status).json({msg:message});
 }

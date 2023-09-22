@@ -21,7 +21,7 @@ app.use(errorHanler);
 const port = process.env.PORT || 8000
 app.listen(port, async ()=>{
     try {
-        await mongoose.connect(process.env.MONGO_URL);
+        // await mongoose.connect(process.env.MONGO_URL);
         console.log(`Server running on port ${port}`);
     } catch (error) {
         console.log(error);
