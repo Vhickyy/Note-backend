@@ -7,8 +7,6 @@ export const loginUser = () => {
 export const verifyOtp = () => {
     res.send("Verify Email")
 }
-
-
 export const resendOtp = () => {
     res.send("resend otp")
 }
