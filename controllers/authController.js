@@ -29,6 +29,10 @@ export const verifyOtp = async (req,res) => {
         res.status(401);
         throw new Error("Incorrect otpCode");
     }
+    const expiredOtp = user.expiredOtp < new Date().now;
+    if(expiredOtp){
+        return res.status(200).json({msg:"otp expired"})
+    }
     user.otpCode = "";
     await user.save();
     res.status(200).json({msg:"Email verified"});
@@ -41,14 +45,25 @@ export const loginUser = async (req,res) => {
         res.status(401);
         throw new Error("Invalid email and password");
     };
+    if(!user.isVerified){
+        return res.status(200).json({msg:"Please Verify Account"});
+    }
     const isCorrectPassword = await comparePassword(password, user.password);
     if(!isCorrectPassword){
         res.status(401);
         throw new Error("Invalid email and password");
     };
-    res.status(200).json({msg:"Login successful",data:user});
+    return res.status(200).json({msg:"Login successful",data:user});
 }
 
-export const resendOtp = (req,res) => {
+export const resendOtp = async (req,res) => {
+    const user = await User.findOne({email});
+    // Check if its time to resend otp here
+    const otpCode = createOtp();
+    user.password = hashedPassword;
+    user.otpCode = otpCode;
+    user.otpExpiry = new Date.now() + (1000 * 60);
+    await user.save();
+    await sendEmail({type:"verify",email,message:otpCode});
     res.send("resend otp")
 }
