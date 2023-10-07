@@ -1,15 +1,16 @@
-const getAllNotes = async () => {
-    res.send("hi")
+const getAllNotes = async (req,res) => {
+    res.send("get all")
 }
-const getSingleNote = async () => {
-    res.send("hi")
+const addNote = async (req,res) => {
+    res.send("add")
 }
-const addNote = async () => {
-    res.send("hi")
+const getSingleNote = async (req,res) => {
+    res.send("get one")
 }
-const updateNote = async () => {
-    res.send("hi")
+const updateNote = async (req,res) => {
+    res.send("update")
 }
-const deleteNote = async () => {
-    res.send("hi")
+const deleteNote = async (req,res) => {
+    res.send("delete")
 }
+export {getAllNotes, addNote, getSingleNote, updateNote, deleteNote};

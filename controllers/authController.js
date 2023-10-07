@@ -57,6 +57,7 @@ export const loginUser = async (req,res) => {
 }
 
 export const resendOtp = async (req,res) => {
+    const {email} = req.body
     const user = await User.findOne({email});
     // Check if its time to resend otp here
     const otpCode = createOtp();
