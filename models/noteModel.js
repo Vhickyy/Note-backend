@@ -3,8 +3,14 @@ import mongoose from "mongoose"
 const NoteSchema = new mongoose.Schema({
     title: String,
     noteBody: String,
-    category: String,
-    isFav: Boolean,
+    category: {
+        type: String,
+        default: "uncategorized"
+    },
+    isFav: {
+        type: Boolean,
+        default: false
+    },
     user: {
         type: mongoose.Types.ObjectId,
         ref: "User"

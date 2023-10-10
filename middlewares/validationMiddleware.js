@@ -31,3 +31,9 @@ export const verifyOtpValidation = validationLayer([
 export const resendOtpValidation = validationLayer([
     body("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Email is invalid.")
 ])
+
+// note validation
+export const addNoteValidation = () => {
+    body("title").notEmpty().withMessage("Title is required"),
+    body("noteBody").notEmpty().withMessage("noteBody is required")
+}

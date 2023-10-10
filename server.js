@@ -2,7 +2,7 @@ import "express-async-errors"
 import * as dotenv from "dotenv";
 import express from "express"
 import morgan from "morgan";
-import { errorHanler, notFoundHandler } from "./middlewares/notFound_Error.js";
+import { errorHandler, notFoundHandler } from "./middlewares/notFound_Error.js";
 import authRouter from "./routes/authRoute.js";
 import noteRouter from "./routes/noteRoute.js";
 dotenv.config()
@@ -19,7 +19,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("*",notFoundHandler);
-app.use(errorHanler);
+app.use(errorHandler);
 const port = process.env.PORT || 8000
 app.listen(port, async ()=>{
     try {
