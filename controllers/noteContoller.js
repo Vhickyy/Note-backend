@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Note from "../models/noteModel.js"
 const getAllNotes = async (req,res) => {
     const notes = await Note.find({});
@@ -11,6 +12,11 @@ const addNote = async (req,res) => {
 }
 const getSingleNote = async (req,res) => {
     const {id} = req.params;
+    const validId = mongoose.Types.ObjectId.isValid(id);
+    if(!validId){
+        res.status(401);
+        throw new Error(`Invalid id - ${id}`)
+    }
     const note = await Note.find({_id:id});
     if(!note){
         res.status(401);
@@ -20,6 +26,11 @@ const getSingleNote = async (req,res) => {
 }
 const updateNote = async (req,res) => {
     const {id} = req.params;
+    const validId = mongoose.Types.ObjectId.isValid(id);
+    if(!validId){
+        res.status(401);
+        throw new Error(`Invalid id - ${id}`)
+    }
     const {noteBody, title, category, isFav} = req.body;
     const updatedNote = {noteBody, title, category}
     const note = await Note.findOneAndUpdate({_id:id},updatedNote,{runValidators:true});
@@ -31,6 +42,11 @@ const updateNote = async (req,res) => {
 }
 const deleteNote = async (req,res) => {
     const {id} = req.params;
+    const validId = mongoose.Types.ObjectId.isValid(id);
+    if(!validId){
+        res.status(401);
+        throw new Error(`Invalid id - ${id}`)
+    }
     const note = await Note.findOneAndDelete({_id:id});
     if(!note){
         res.status(401)

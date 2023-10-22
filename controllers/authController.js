@@ -1,18 +1,18 @@
 import User from "../models/userModel.js";
 import { createOtp, hashPassword, sendEmail } from "../utils/utils.js";
 export const registerUser = async (req,res) => {
-    const {email} = req.body;
+    const {email,password} = req.body;
     const user = await User.findOne({email});
     if(user){
         res.status(401);
         throw new Error("Email already exist");
     }
-    const hashedPassword = hashPassword(password)
+    const hashedPassword = await hashPassword(password);
     const otpCode = createOtp();
-    user.password = hashedPassword;
-    user.otpCode = otpCode;
-    user.otpExpiry = new Date.now() + (1000 * 60);
-    await user.save();
+    req.body.password = hashedPassword;
+    req.body.otpCode = otpCode;
+    req.body.otpExpiry = Date.now() + (1000 * 60);
+    await User.create(req.body)
     await sendEmail({type:"verify",email,message:otpCode});
     res.status(201).json({msg:"User succesfully created, verify your account."});
 }

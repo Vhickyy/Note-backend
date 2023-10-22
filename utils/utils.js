@@ -1,8 +1,10 @@
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import nodemailer from "nodemiler";
 
-export const hashPassword = async () =>  {
+export const hashPassword = async (password) =>  {
     const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hashPassword(password,salt);
+    // return await bcrypt.hashPassword(password,salt);
+    return await bcrypt.hash(password,salt);
 }
 export const comparePassword = async (password,hashedPassword) =>  {
     return await bcrypt.compare(password,hashedPassword);
@@ -13,8 +15,7 @@ export const createOtp = () => {
     for(let i = 0; i<=6; i++){
         otp.push(Math.floor(Math.random() * 10))
     }
-    console.log(otp);
-    return otp
+    return otp.join("");
 }
 
 export const sendEmail = async ({type,email, message}) => {
