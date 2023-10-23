@@ -33,7 +33,7 @@ export const resendOtpValidation = validationLayer([
 ])
 
 // note validation
-export const addNoteValidation = () => {
+export const addNoteValidation = validationLayer([
     body("title").notEmpty().withMessage("Title is required"),
     body("noteBody").notEmpty().withMessage("noteBody is required")
-}
+])

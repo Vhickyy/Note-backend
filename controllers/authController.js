@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import { createOtp, hashPassword, sendEmail } from "../utils/utils.js";
+import { createOtp, hashPassword, sendEmail, comparePassword } from "../utils/utils.js";
 export const registerUser = async (req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email});
@@ -11,9 +11,9 @@ export const registerUser = async (req,res) => {
     const otpCode = createOtp();
     req.body.password = hashedPassword;
     req.body.otpCode = otpCode;
-    req.body.otpExpiry = Date.now() + (1000 * 60);
+    req.body.otpExpiry = new Date(Date.now() + (1000 * 60));
     await User.create(req.body)
-    await sendEmail({type:"verify",email,message:otpCode});
+    // await sendEmail({type:"verify",email,message:otpCode});
     res.status(201).json({msg:"User succesfully created, verify your account."});
 }
 
@@ -45,9 +45,9 @@ export const loginUser = async (req,res) => {
         res.status(401);
         throw new Error("Invalid email and password");
     };
-    if(!user.isVerified){
-        return res.status(200).json({msg:"Please Verify Account"});
-    }
+    // if(!user.isVerified){
+    //     return res.status(200).json({msg:"Please Verify Account"});
+    // }
     const isCorrectPassword = await comparePassword(password, user.password);
     if(!isCorrectPassword){
         res.status(401);
