@@ -1,5 +1,5 @@
-import { body, validationResult } from "express-validator";
-
+import { body, validationResult, param } from "express-validator";
+import mongoose from "mongoose";
 const validationLayer = (validations) => {
     return ([
         validations,
@@ -36,4 +36,14 @@ export const resendOtpValidation = validationLayer([
 export const addNoteValidation = validationLayer([
     body("title").notEmpty().withMessage("Title is required"),
     body("noteBody").notEmpty().withMessage("noteBody is required")
+])
+
+export const paramValidation = validationLayer([
+    param("id").custom(id =>{
+        const validId = mongoose.Types.ObjectId.isValid(id);
+        if(!validId){
+            res.status(401);
+            throw new Error(`Invalid id - ${id}`);
+    }
+    })
 ])

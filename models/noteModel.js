@@ -14,6 +14,14 @@ const NoteSchema = new mongoose.Schema({
     user: {
         type: mongoose.Types.ObjectId,
         ref: "User"
+    },
+    group:{
+        type: [mongoose.Types.ObjectId],
+        ref: "User"
+    },
+    lastMessage:{
+        type: mongoose.Types.ObjectId,
+        ref: 'Message'
     }
 },{
     timestamps: true

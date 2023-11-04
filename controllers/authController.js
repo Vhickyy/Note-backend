@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
-import { createOtp, hashPassword, sendEmail, comparePassword } from "../utils/utils.js";
+import { createOtp, hashPassword, comparePassword } from "../utils/utils.js";
+import { sendEmail } from "../services/nodemailer.js";
 export const registerUser = async (req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email});
@@ -7,14 +8,13 @@ export const registerUser = async (req,res) => {
         res.status(401);
         throw new Error("Email already exist");
     }
-    const hashedPassword = await hashPassword(password);
     const otpCode = createOtp();
-    req.body.password = hashedPassword;
+    req.body.password = await hashPassword(password);
     req.body.otpCode = otpCode;
     req.body.otpExpiry = new Date(Date.now() + (1000 * 60));
     await User.create(req.body)
     // await sendEmail({type:"verify",email,message:otpCode});
-    res.status(201).json({msg:"User succesfully created, verify your account."});
+    return res.status(201).json({msg:"User succesfully created, verify your account."});
 }
 
 export const verifyOtp = async (req,res) => {
@@ -29,13 +29,13 @@ export const verifyOtp = async (req,res) => {
         res.status(401);
         throw new Error("Incorrect otpCode");
     }
-    const expiredOtp = user.expiredOtp < new Date().now;
+    const expiredOtp = user.expiredOtp < new Date(Date.now());
     if(expiredOtp){
         return res.status(200).json({msg:"otp expired"})
     }
     user.otpCode = "";
     await user.save();
-    res.status(200).json({msg:"Email verified"});
+    return res.status(200).json({msg:"Email verified"});
 }
 
 export const loginUser = async (req,res) => {
@@ -45,9 +45,9 @@ export const loginUser = async (req,res) => {
         res.status(401);
         throw new Error("Invalid email and password");
     };
-    // if(!user.isVerified){
-    //     return res.status(200).json({msg:"Please Verify Account"});
-    // }
+    if(!user.isVerified){
+        return res.status(200).json({msg:"Please Verify Account"});
+    }
     const isCorrectPassword = await comparePassword(password, user.password);
     if(!isCorrectPassword){
         res.status(401);
@@ -61,10 +61,10 @@ export const resendOtp = async (req,res) => {
     const user = await User.findOne({email});
     // Check if its time to resend otp here
     const otpCode = createOtp();
-    user.password = hashedPassword;
     user.otpCode = otpCode;
     user.otpExpiry = new Date.now() + (1000 * 60);
     await user.save();
     await sendEmail({type:"verify",email,message:otpCode});
-    res.send("resend otp")
+    res.send("resend otp");
+    return res.status(200).json({msg:"otp resent",msg:otpCode});
 }
