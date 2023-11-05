@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const createOtp = () => {
     const otpCode = []
@@ -18,8 +19,11 @@ export const comparePassword = async (password,hashedPassword) =>  {
     return await bcrypt.compare(password,hashedPassword);
 }
 
-
-
-export const createJWT = () => {
-    
+export const createJWT = (payload) => {
+ const token = jwt.sign(payload,process.env.SECRET)
+ return token;   
+}
+export const verifyJWT = (payload) => {
+ const decoded = jwt.verify(payload)
+ return decoded;   
 }
