@@ -14,19 +14,20 @@ const app = express();
 
 
 // test
-app.get("/api",(req,res)=>{
-    return res.status(200).json({msg:"hello world"})
+app.get("/noteapi",(req,res)=>{
+    return res.status(200).json({msg:"hello world"}) 
 })
-app.post("/api/test-user",(req,res)=>{
-    const user = req.body;
-    console.log(user)
-    return res.status(200).json({msg:"hello world"})
+app.get("/api/test-user",(req,res)=>{
+    // const user = req.body;
+    // console.log(user)
+    return res.status(200).json({msg:"hello world2"})
 })
-
+// import googleRouter from "./routes/googleRoute.js";
+// app.use("/noteapi/auth",googleRouter)
 const port = process.env.PORT || 8000
 app.listen(port, async ()=>{
     try {
-        // await mongoose.connect(process.env.MONGO_URL);
+        await mongoose.connect(process.env.MONGO_URL);
         appConfig(app)
         console.log(`Server running on port ${port}`);
     } catch (error) {

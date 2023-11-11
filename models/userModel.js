@@ -5,10 +5,14 @@ const UserSchema = new mongoose.Schema({
     email: String,
     password: String,
     profile: String,
-    isVerified: Boolean,
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    googleID: String,
     otpCode: String,
     otpExpiry: Date,
-    forgotPasswordExpiry: Date
+    forgotPasswordExpiry: Date,
 })
 
 export default mongoose.model("User",UserSchema);

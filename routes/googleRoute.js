@@ -1,9 +1,9 @@
 import {Router} from "express";
-
+import passport from "passport";
 const router = Router();
  
 // google
-router.get('/auth/google',passport.authenticate('google', { scope: ['profile'] }));
+router.get('/google',passport.authenticate('google', { scope: ['email','profile'] }));
 
 router.get("/failed",(req,res)=>{
     res.status(401).json({msg:"failed to authorized using google"});
@@ -11,17 +11,15 @@ router.get("/failed",(req,res)=>{
 
 router.get("/success", (req,res) => {
     console.log(req.user);
+    console.log("hi");
+    return res.status(200).json({msg:"success"})
 })
 
-router.get('/auth/google/callback', 
+router.get('/google/callback', 
   passport.authenticate('google', { 
-    failureRedirect: '/failed' ,
-    successRedirect: "/success"
-    }),
-//   function(req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect('/');
-// }
+    failureRedirect: 'http://localhost:8000/auth/failed' ,
+    successRedirect: "http://localhost:8000/auth/success"
+    })
 );
 
 

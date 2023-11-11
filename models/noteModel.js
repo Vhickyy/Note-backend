@@ -15,14 +15,18 @@ const NoteSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
     },
-    group:{
-        type: [mongoose.Types.ObjectId],
-        ref: "User"
-    },
-    lastMessage:{
-        type: mongoose.Types.ObjectId,
-        ref: 'Message'
+    isDeleted:{
+        type: Boolean,
+        default: false
     }
+    // group:{
+    //     type: [mongoose.Types.ObjectId],
+    //     ref: "User"
+    // },
+    // lastMessage:{
+    //     type: mongoose.Types.ObjectId,
+    //     ref: 'Message'
+    // }
 },{
     timestamps: true
 });
