@@ -2,7 +2,7 @@ import {Router} from "express";
 import passport from "passport";
 const router = Router();
  
-// google
+// google auth
 router.get('/google',passport.authenticate('google', { scope: ['email','profile'] }));
 
 router.get("/failed",(req,res)=>{

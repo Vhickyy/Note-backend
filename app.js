@@ -9,6 +9,7 @@ import { errorHandler, notFoundHandler } from "./middlewares/notFound_Error.js";
 import authRouter from "./routes/authRoute.js";
 import noteRouter from "./routes/noteRoute.js";
 import googleRouter from "./routes/googleRoute.js";
+import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
    app.use(cors(
@@ -37,8 +38,8 @@ const appConfig = (app) => {
 
     // routes
     app.use("/api",authRouter)
-       .use("/api",noteRouter)
        .use("/auth",googleRouter)
+       .use("/api",authenticated,noteRouter)
     
     // not-found and error route
     app.use("*",notFoundHandler)
