@@ -4,7 +4,7 @@ import cookieparser from "cookie-parser";
 import passport from "passport";
 import cookieSession from "cookie-session";
 import cors from "cors";
-import googleSessionMiddleware from "./services/passport.js"
+import {googleSessionMiddleware} from "./services/passport.js"
 import { errorHandler, notFoundHandler } from "./middlewares/notFound_Error.js";
 import authRouter from "./routes/authRoute.js";
 import noteRouter from "./routes/noteRoute.js";
@@ -40,7 +40,7 @@ const appConfig = (app) => {
     app.use("/api",authRouter)
        .use("/auth",googleRouter)
        .use("/api",authenticated,noteRouter)
-    
+   
     // not-found and error route
     app.use("*",notFoundHandler)
        .use(errorHandler);

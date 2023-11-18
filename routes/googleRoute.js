@@ -11,7 +11,6 @@ router.get("/failed",(req,res)=>{
 
 router.get("/success", (req,res) => {
     console.log(req.user);
-    console.log("hi");
     return res.status(200).json({msg:"success"})
 })
 

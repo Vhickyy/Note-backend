@@ -21,9 +21,19 @@ passport.use(new GoogleStrategy({
       })
       await newUser.save();
       return cb(null, newUser);
-    } return cb(null, user);
+    }return cb(null, user);
   }
 ));
+
+
+passport.serializeUser((user,done)=>{
+  // console.log(user);
+  done(null,user)
+})
+
+passport.deserializeUser((user,done)=>{
+  done(null,user)
+})
 
 export function googleSessionMiddleware (req,res,next){
   if(req.session && !req.session.regenerate){
@@ -38,14 +48,4 @@ export function googleSessionMiddleware (req,res,next){
   }
   next();
 }
-
-passport.serializeUser((user,done)=>{
-  done(null.user)
-})
-
-passport.deserializeUser((user,done)=>{
-  done(null,user)
-})
-
-
 
