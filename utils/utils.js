@@ -7,7 +7,7 @@ export const createOtp = () => {
         otpCode.push(Math.floor(Math.random() * 10))
     }
     console.log(otpCode);
-    return otpCode;
+    return otpCode.join("");
 }
 
 export const hashPassword = async (password) =>  {
