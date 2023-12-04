@@ -43,6 +43,10 @@ const updateNote = async (req,res) => {
         throw new Error(`Invalid id - ${noteId}`)
     }
     const {noteBody, title, category, isFav} = req.body;
+    if(!noteBody || !title){
+        res.status(401);
+        throw new Error("Note must have a title and body");
+    }
     const updatedNote = {noteBody, title, category, isFav}
     const note = await Note.findByIdAndUpdate({_id:noteId,user:req.user.userId},updatedNote,{new:true});
     if(!note){

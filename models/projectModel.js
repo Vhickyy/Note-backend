@@ -2,31 +2,22 @@ import mongoose from "mongoose"
 
 const ProjectSchema = new mongoose.Schema({
     title: String,
-    noteBody: String,
-    category: {
-        type: String,
-        default: "uncategorized"
+    projectBody: String,
+    brief: {
+        type: String
     },
     isFav: {
         type: Boolean,
         default: false
     },
-    user: {
+    owner: {
         type: mongoose.Types.ObjectId,
         ref: "User"
     },
-    isDeleted:{
-        type: Boolean,
-        default: false
+    members:{
+        type: [mongoose.Types.ObjectId],
+        ref: "User"
     }
-    // group:{
-    //     type: [mongoose.Types.ObjectId],
-    //     ref: "User"
-    // },
-    // lastMessage:{
-    //     type: mongoose.Types.ObjectId,
-    //     ref: 'Message'
-    // }
 },{
     timestamps: true
 });
