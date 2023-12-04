@@ -20,10 +20,10 @@ export const comparePassword = async (password,hashedPassword) =>  {
 }
 
 export const createJWT = (payload) => {
- const token = jwt.sign(payload,process.env.SECRET)
+ const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:process.env.EXPIRES_IN});
  return token;   
 }
 export const verifyJWT = (payload) => {
- const decoded = jwt.verify(payload)
+ const decoded = jwt.verify(payload,process.env.JWT_SECRET)
  return decoded;   
 }

@@ -99,4 +99,4 @@ const deleteNote = async (req,res) => {
     res.status(200).json({msg:"successful",note})
 }
 
-export {getAllNotes, addNote, getSingleNote, updateNote, deleteNote, getAllFavNotes,updateNoteDelete};
+export {getAllNotes, addNote, getSingleNote, updateNote, deleteNote, getAllFavNotes,updateNoteDelete,updateNoteRetrieve};

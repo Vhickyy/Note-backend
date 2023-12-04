@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import { createOtp, hashPassword, comparePassword } from "../utils/utils.js";
+import { createOtp, hashPassword, comparePassword, createJWT } from "../utils/utils.js";
 import { sendEmail } from "../services/nodemailer.js";
 export const registerUser = async (req,res) => {
     const {email,password} = req.body;
@@ -34,8 +34,8 @@ export const verifyOtp = async (req,res) => {
         throw new Error("Incorrect otpCode");
     }
     const expiredOtp = new Date(user.otpExpiry) < new Date(Date.now());
-    // console.log(new Date(user.otpExpiry),new Date(Date.now()));
-    // console.log(expiredOtp);
+    console.log(new Date(user.otpExpiry),new Date(Date.now()));
+    console.log(expiredOtp);
     if(expiredOtp){
         return res.status(401).json({msg:"otp expired"})
     }
@@ -60,7 +60,8 @@ export const loginUser = async (req,res) => {
         res.status(401);
         throw new Error("Invalid email and password");
     };
-    res.cookies("token", token, {
+    const token = createJWT({userId: user._id,userRole: user.role})
+    res.cookie("token", token, {
         httpOnly: true,
         expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
         secure: process.env.NODE_ENV === "production"
@@ -76,12 +77,12 @@ export const resendOtp = async (req,res) => {
         throw new Error("user does not exist")
     }
     if(user.isVerified){
-        return res.status(200).json({msg:"user already verified",msg:otpCode});
+        return res.status(200).json({msg:"user already verified"});
     }
     // Check if its time to resend otp here
     const otpCode = createOtp();
     user.otpCode = otpCode;
-    user.otpExpiry = new Date(Date.now()) + (1000 * 60);
+    user.otpExpiry = new Date(Date.now() + (1000 * 60));
     await user.save();
     // await sendEmail({type:"verify",email,message:otpCode});
     return res.status(200).json({msg:"otp resent",msg:otpCode});
