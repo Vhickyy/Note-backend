@@ -4,7 +4,10 @@ const UserSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
-    profile: String,
+    profile: {
+        type: String,
+        default: ""
+    },
     role: {
         type: String,
         default: "user"
@@ -17,6 +20,8 @@ const UserSchema = new mongoose.Schema({
     otpCode: String,
     otpExpiry: Date,
     forgotPasswordExpiry: Date,
+},{
+    timesStamp:true
 })
 
 export default mongoose.model("User",UserSchema);
