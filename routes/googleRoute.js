@@ -1,5 +1,6 @@
 import {Router} from "express";
 import passport from "passport";
+import {createJWT} from "../utils/utils.js"
 const router = Router();
  
 // google auth
@@ -11,7 +12,13 @@ router.get("/failed",(req,res)=>{
 
 router.get("/success", (req,res) => {
     console.log(req.user);
-    return res.status(200).json({msg:"success"})
+    const token = createJWT({userId: req.user._id,userRole: req.user.role})
+    res.cookie("token", token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
+        secure: process.env.NODE_ENV === "production"
+    })
+    return res.redirect("http://localhost:5173/dashboard")
 })
 
 router.get('/google/callback', 
@@ -20,7 +27,6 @@ router.get('/google/callback',
     successRedirect: "http://localhost:8000/auth/success"
     })
 );
-
 
 
 export default router;

@@ -10,9 +10,6 @@ const app = express();
 
 // app.use(cookieparser())
 
-
-
-
 // test
 app.get("/noteapi",(req,res)=>{
     return res.status(200).json({msg:"hello world"}) 
@@ -22,8 +19,6 @@ app.get("/api/test-user",(req,res)=>{
     // console.log(user)
     return res.status(200).json({msg:"hello world2"})
 })
-// import googleRouter from "./routes/googleRoute.js";
-// app.use("/noteapi/auth",googleRouter)
 const port = process.env.PORT || 8000
 app.listen(port, async ()=>{
     try {
@@ -35,3 +30,27 @@ app.listen(port, async ()=>{
         process.exit(1);
     }
 })
+
+// const server = null;
+
+// io.on("connection", (userId) => {
+//     console.log(`${userId} connected`);
+//     socket.on("join project", (projectId) => {
+//         console.log(projectId);
+//         socket.emit("joined",{msg:"welcome to the room"})
+//         socket.broadcast.to(projectId).emit("joined",{msg:"user joined the room"})
+//         socket.join(projectId);
+//     })
+
+//     socket.on("send invite", (users) => {
+//         console.log(users);
+//     })
+
+//     socket.on("write",(message,projectId)=>{
+//         io.to(projectId).emit("message",{message,user:userId})
+//     })
+    
+//     socket.on("disconect", () => {
+//         console.log("disconnected");
+//     })
+// });
