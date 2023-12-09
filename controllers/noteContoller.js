@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Note from "../models/noteModel.js"
 
 const getAllNotes = async (req,res) => {
-    const notes = await Note.find({user:req.user.userId});
+    const notes = await Note.find({userId:req.user.userId});
     res.status(200).json({msg:"successful",notes});
 }
 
