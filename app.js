@@ -41,7 +41,7 @@ const appConfig = (app) => {
     app.use("/api",authRouter)
        .use("/auth",googleRouter)
        .use("/api",authenticated,noteRouter)
-       .use("/api",userRouter)
+       .use("/api",authenticated,userRouter)
    
     // not-found and error route
     app.use("*",notFoundHandler)

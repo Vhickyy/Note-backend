@@ -5,7 +5,7 @@ export const registerUser = async (req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email});
     if(user){
-        res.status(401);
+        res.status(400);
         throw new Error("Email already exist");
     }
     const otpCode = createOtp();
@@ -21,23 +21,23 @@ export const verifyOtp = async (req,res) => {
     const {email,otpCode} = req.body;
     const user = await User.findOne({email});
     if(!user){
-        res.status(401);
+        res.status(400);
         throw new Error("No user with this email");
     }
     if(user.isVerified){
-        res.status(401);
+        res.status(400);
         throw new Error("user already verified");
     }
     const isCorrectOtp = user.otpCode === otpCode;
     if(!isCorrectOtp){
-        res.status(401);
+        res.status(400);
         throw new Error("Incorrect otpCode");
     }
     const expiredOtp = new Date(user.otpExpiry) < new Date(Date.now());
     console.log(new Date(user.otpExpiry),new Date(Date.now()));
     console.log(expiredOtp);
     if(expiredOtp){
-        return res.status(401).json({msg:"otp expired"})
+        return res.status(400).json({msg:"otp expired"})
     }
     user.otpCode = "";
     user.isVerified = true
@@ -49,31 +49,41 @@ export const loginUser = async (req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email});
     if(!user){
-        res.status(401);
+        res.status(400);
         throw new Error("Invalid email and password");
     };
     if(!user.isVerified){
-        return res.status(401).json({msg:"Please Verify Account"});
+        return res.status(400).json({msg:"Please Verify Account"});
     }
     const isCorrectPassword = await comparePassword(password, user.password);
     if(!isCorrectPassword){
-        res.status(401);
+        res.status(400);
         throw new Error("Invalid email and password");
     };
     const token = createJWT({userId: user._id,userRole: user.role})
+    const sendUser = {name:user.name,email:user.email,profile:user.profile,role:user.role,id:user._id}
     res.cookie("token", token, {
         httpOnly: true,
         expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
         secure: process.env.NODE_ENV === "production"
     })
-    return res.status(200).json({msg:"Login successful"});
+    return res.status(200).json({msg:"Login successful",user:sendUser});
+}
+
+
+export const logoutUser = async (req,res) => {
+    res.cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(Date.now())
+    })
+    return res.status(200).json({msg:"Logout successful"});
 }
 
 export const resendOtp = async (req,res) => {
     const {email} = req.body
     const user = await User.findOne({email});
     if(!user){
-        res.status(401)
+        res.status(400)
         throw new Error("user does not exist")
     }
     if(user.isVerified){

@@ -24,12 +24,12 @@ const getSingleNote = async (req,res) => {
     const {id} = req.params;
     const validId = mongoose.Types.ObjectId.isValid(id);
     if(!validId){
-        res.status(401);
+        res.status(400);
         throw new Error(`Invalid id - ${id}`);
     }
     const note = await Note.findOne({_id:id,userId:req.user.userId});
     if(!note){
-        res.status(401);
+        res.status(400);
         throw new Error(`No note with id ${id}`)
     }
     res.status(200).json({msg:"successful",note})
@@ -39,18 +39,18 @@ const updateNote = async (req,res) => {
     const {id} = req.params;
     const validId = mongoose.Types.ObjectId.isValid(id);
     if(!validId){
-        res.status(401);
+        res.status(400);
         throw new Error(`Invalid id - ${id}`)
     }
     const {noteBody, title, category, isFav} = req.body;
     if(!noteBody || !title){
-        res.status(401);
+        res.status(400);
         throw new Error("Note must have a title and body");
     }
     const updatedNote = {noteBody, title, category, isFav};
     const note = await Note.findOneAndUpdate({_id:id,userId:req.user.userId},updatedNote,{new:true});
     if(!note){
-        res.status(401)
+        res.status(400)
         throw new Error(`No note with id ${id}`);
     }
     res.status(200).json({msg:"successful",note});
@@ -60,14 +60,14 @@ const updateNoteDelete = async (req,res) => {
     const {id} = req.params;
     const validId = mongoose.Types.ObjectId.isValid(id);
     if(!validId){
-        res.status(401);
+        res.status(400);
         throw new Error(`Invalid id - ${id}`)
     }
     const updatedNote = {isDeleted:true}
     const note = await Note.findOneAndUpdate({_id:id,userId:req.user.userId},updatedNote,{new:true});
     console.log(note);
     if(!note){
-        res.status(401)
+        res.status(400)
         throw new Error(`No note with id ${id}`)
     }
     res.status(200).json({msg:"successful",note})
@@ -77,13 +77,13 @@ const updateNoteRetrieve = async (req,res) => {
     const {id} = req.params;
     const validId = mongoose.Types.ObjectId.isValid(id);
     if(!validId){
-        res.status(401);
+        res.status(400);
         throw new Error(`Invalid id - ${id}`)
     }
     const updatedNote = {isDeleted:false}
     const note = await Note.findOneAndUpdate({_id:id,userId:req.user.userId},updatedNote,{new:true});
     if(!note){
-        res.status(401);
+        res.status(400);
         throw new Error(`No note with id ${id}`)
     }
     res.status(200).json({msg:"successful",note})
@@ -93,12 +93,12 @@ const deleteNote = async (req,res) => {
     const {id} = req.params;
     const validId = mongoose.Types.ObjectId.isValid(id);
     if(!validId){
-        res.status(401);
+        res.status(400);
         throw new Error(`Invalid id - ${id}`)
     }
     const note = await Note.findOneAndDelete({_id:id,userId:req.user.userId});
     if(!note){
-        res.status(401)
+        res.status(400)
         throw new Error(`No note with id ${id}`)
     }
     res.status(200).json({msg:"successful",note})
