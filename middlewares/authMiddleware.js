@@ -8,14 +8,14 @@ export const authenticated = async (req,res,next) => {
         throw new Error("Unauthorized to access this route");
     }
     try {
-        console.log("here");
+        // console.log("here");
         const user = verifyJWT(token)
         req.user = user;
-        console.log(req.user);
+        // console.log(req.user);
         next()
     } catch (error) {
-        console.log("auth error two");
+        // console.log("auth error two");
         res.status(401);
         throw new Error("Unauthorized to access this route");
     }
-}
+} 
