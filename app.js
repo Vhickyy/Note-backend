@@ -8,6 +8,7 @@ import {googleSessionMiddleware} from "./services/passport.js"
 import { errorHandler, notFoundHandler } from "./middlewares/notFound_Error.js";
 import authRouter from "./routes/authRoute.js";
 import noteRouter from "./routes/noteRoute.js";
+import projectRouter from "./routes/projectRoute.js";
 import userRouter from "./routes/userRoute.js";
 import googleRouter from "./routes/googleRoute.js";
 import { authenticated } from "./middlewares/authMiddleware.js";
@@ -42,6 +43,7 @@ const appConfig = (app) => {
        .use("/auth",googleRouter)
        .use("/api",authenticated,noteRouter)
        .use("/api",authenticated,userRouter)
+       .use("/api",authenticated,projectRouter)
    
     // not-found and error route
     app.use("*",notFoundHandler)

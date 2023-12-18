@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 import Note from "../models/noteModel.js"
 
 const getAllNotes = async (req,res) => {
-    const notes = await Note.find({userId:req.user.userId});
+    const notes = await Note.find({userId:req.user.userId,isDeleted:false});
     res.status(200).json({msg:"successful",notes});
 }
 
 const getAllFavNotes = async (req,res) => {
-    const notes = await Note.find({user:req.user.userId,isFav:true});
+    const notes = await Note.find({userId:req.user.userId,isFav:true});
     res.status(200).json({msg:"successful",notes});
 }
 
@@ -104,4 +104,15 @@ const deleteNote = async (req,res) => {
     res.status(200).json({msg:"successful",note})
 }
 
-export {getAllNotes, addNote, getSingleNote, updateNote, deleteNote, getAllFavNotes,updateNoteDelete,updateNoteRetrieve};
+const getAllDeletedNotes = async (req,res) => {
+    const notes = await Note.find({userId:req.user.userId,isDeleted:true});
+    console.log(notes);
+    res.status(200).json({msg:"successful",notes});
+}
+
+const clearAllDeletedNotes = async (req,res) => {
+    const notes = await Note.deleteMany({userId:req.user.userId,isDeleted:true});
+    res.status(200).json({msg:"successful",notes});
+}
+
+export {getAllNotes, addNote, getSingleNote, updateNote, deleteNote, getAllFavNotes,updateNoteDelete,updateNoteRetrieve,getAllDeletedNotes,clearAllDeletedNotes};
