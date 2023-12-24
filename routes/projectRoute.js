@@ -4,7 +4,7 @@ import { addProject, deleteProject, getAllProjects, getSingleProject, updateForA
 const router = Router();
 router.route("/projects").get(getAllProjects).post(addProject);
 router.route("/projects/:id").get(getSingleProject).patch(updateProject).delete(deleteProject);
-router.route("/project/add-user/:id",updateForAddUser)
-router.route("/project/delete-user/:id",updateForDeleteUser)
+router.patch("/project/add-user/:id",updateForAddUser)
+router.patch("/project/delete-user/:id",updateForDeleteUser)
 
 export default router;

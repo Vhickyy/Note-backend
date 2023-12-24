@@ -106,13 +106,13 @@ const deleteNote = async (req,res) => {
 
 const getAllDeletedNotes = async (req,res) => {
     const notes = await Note.find({userId:req.user.userId,isDeleted:true});
-    console.log(notes);
     res.status(200).json({msg:"successful",notes});
 }
 
 const clearAllDeletedNotes = async (req,res) => {
     const notes = await Note.deleteMany({userId:req.user.userId,isDeleted:true});
-    res.status(200).json({msg:"successful",notes});
+    console.log(notes);
+    res.status(200).json({msg:"successful"});
 }
 
 export {getAllNotes, addNote, getSingleNote, updateNote, deleteNote, getAllFavNotes,updateNoteDelete,updateNoteRetrieve,getAllDeletedNotes,clearAllDeletedNotes};

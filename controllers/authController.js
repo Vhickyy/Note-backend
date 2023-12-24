@@ -47,6 +47,7 @@ export const verifyOtp = async (req,res) => {
 
 export const loginUser = async (req,res) => {
     const {email,password} = req.body;
+    console.log("ji");
     const user = await User.findOne({email});
     if(!user){
         res.status(400);

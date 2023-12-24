@@ -4,6 +4,10 @@ import express from "express";
 import mongoose from "mongoose";
 import appConfig from "./app.js";
 import "./services/passport.js"
+import {Server} from "socket.io"
+import Project from "./models/projectModel.js";
+
+// const socketio = io(8000)
 
 dotenv.config()
 const app = express();
@@ -20,7 +24,7 @@ app.get("/api/test-user",(req,res)=>{
     return res.status(200).json({msg:"hello world2"})
 })
 const port = process.env.PORT || 8000
-app.listen(port, async ()=>{
+const server = app.listen(port, async ()=>{
     try {
         await mongoose.connect(process.env.MONGO_URL);
         appConfig(app)
@@ -30,17 +34,28 @@ app.listen(port, async ()=>{
         process.exit(1);
     }
 })
+const io = new Server(server,{
+    cors:{
+        origin: "http://localhost:5173",
+        methods: "GET,POST,PUT,PATCH,DELETE",
+    }
+})
 
-// const server = null;
-
-// io.on("connection", (userId) => {
-//     console.log(`${userId} connected`);
-//     socket.on("join project", (projectId) => {
-//         console.log(projectId);
-//         socket.emit("joined",{msg:"welcome to the room"})
-//         socket.broadcast.to(projectId).emit("joined",{msg:"user joined the room"})
-//         socket.join(projectId);
-//     })
+io.on("connection", socket => {
+    // console.log(`${socket.id} connected`);
+    socket.on("join project", async (projectId) => {
+        console.log(projectId);
+        const validId = mongoose.Types.ObjectId.isValid(projectId);
+        if(!validId){
+            return
+        }
+        const project = await Project.findById({_id:projectId})
+        console.log(project);
+   // socket.join(projectId);
+    //     socket.emit("joined",{msg:"welcome to the room"})
+    //     socket.broadcast.to(projectId).emit("joined",{msg:"user joined the room"})
+    //     socket.join(projectId);
+    })
 
 //     socket.on("send invite", (users) => {
 //         console.log(users);
@@ -53,4 +68,4 @@ app.listen(port, async ()=>{
 //     socket.on("disconect", () => {
 //         console.log("disconnected");
 //     })
-// });
+});
