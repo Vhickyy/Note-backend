@@ -42,7 +42,7 @@ const io = new Server(server,{
 })
 
 io.on("connection", socket => {
-    // console.log(`${socket.id} connected`);
+    console.log(`${socket.id} connected`);
     socket.on("join project", async (projectId) => {
         console.log(projectId);
         const validId = mongoose.Types.ObjectId.isValid(projectId);
@@ -50,13 +50,30 @@ io.on("connection", socket => {
             return
         }
         const project = await Project.findById({_id:projectId})
+        if(!project){
+            return
+        }
         console.log(project);
-   // socket.join(projectId);
-    //     socket.emit("joined",{msg:"welcome to the room"})
-    //     socket.broadcast.to(projectId).emit("joined",{msg:"user joined the room"})
-    //     socket.join(projectId);
+        socket.join(projectId);
+        // socket.emit("send project", project.projectBody)
+        socket.on("writing", async (data) => {
+            console.log(data);
+            socket.broadcast.to(projectId).emit("send changes", data);
+            // await Project.findByIdAndUpdate({_id: project._id}, {data})
+        });
     })
 
+
+    socket.on("disconnection", () => {
+        console.log("disconnected 3");
+    })
+});
+
+
+
+  //     socket.emit("joined",{msg:"welcome to the room"})
+    //     socket.broadcast.to(projectId).emit("joined",{msg:"user joined the room"})
+    //     socket.join(projectId);
 //     socket.on("send invite", (users) => {
 //         console.log(users);
 //     })
@@ -65,7 +82,3 @@ io.on("connection", socket => {
 //         io.to(projectId).emit("message",{message,user:userId})
 //     })
     
-//     socket.on("disconect", () => {
-//         console.log("disconnected");
-//     })
-});

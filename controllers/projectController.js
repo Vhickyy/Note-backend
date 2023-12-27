@@ -48,7 +48,7 @@ export const deleteProject = async (req,res) => {
     const {id} = req.params;
     const project = await Project.findOneAndDelete({_id:id,owner:req.user.userId});
     if(!project){
-        res.status(401)
+        res.status(400)
         throw new Error(`No project with id ${id}`)
     }
     res.status(200).json({msg:"successful",project})
@@ -62,7 +62,8 @@ export const updateForAddUser = async (req,res) => {
         res.status(400)
         throw new Error(`No note with id ${id}`)
     }
-    const userInProject = project.members.find(member=>member === user)
+    console.log(user);
+    const userInProject = project.members.find(member=>member.toString() === user.toString())
     if(userInProject){
         return res.status(200).json({msg:"User already a part of this project"})
     }
@@ -78,7 +79,7 @@ export const updateForDeleteUser = async (req,res) => {
     const deleteMemberId = req.body;
     const project = await Project.findOne({_id:id,owner:req.user.userId});
     if(!project){
-        res.status(401)
+        res.status(400)
         throw new Error(`No note with id ${id}`)
     }
     project.members = project.members.filter(member=> member.toString() !== deleteMemberId);
