@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const ProjectSchema = new mongoose.Schema({
     title: String,
-    projectBody: String,
+    projectBody: Object,
     brief: {
         type: String
     },

@@ -59,7 +59,18 @@ io.on("connection", socket => {
         socket.on("writing", async (data) => {
             console.log(data);
             socket.broadcast.to(projectId).emit("send changes", data);
-            // await Project.findByIdAndUpdate({_id: project._id}, {data})
+            socket.on("save", async data => {
+                // const pro = await Project.findById({_id: project._id})
+                await Project.findByIdAndUpdate({_id: project._id}, {projectBody: data})
+                // console.log(data);
+            })
+            // const pro = await Project.findById({_id: project._id})
+            // console.log(pro);
+            // try{
+            //     await Project.findByIdAndUpdate({_id: project._id}, {projectBody: data})
+            // }catch (e) {
+            //     console.log(e);
+            // }
         });
     })
 
