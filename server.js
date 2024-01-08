@@ -55,12 +55,10 @@ io.on("connection", socket => {
         }
         console.log(project);
         socket.join(projectId);
-        // socket.emit("send project", project.projectBody)
+        socket.emit("get project", project.projectBody)
         socket.on("writing", async (data) => {
-            console.log(data);
             socket.broadcast.to(projectId).emit("send changes", data);
             socket.on("save", async data => {
-                // const pro = await Project.findById({_id: project._id})
                 await Project.findByIdAndUpdate({_id: project._id}, {projectBody: data})
                 // console.log(data);
             })
