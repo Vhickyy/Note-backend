@@ -7,7 +7,7 @@ const validationLayer = (validations) => {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 const errMsg = errors.array().map(err=> err.msg);
-                res.status(401);
+                res.status(400);
                 throw new Error(errMsg[0])
             }
             next()
@@ -42,7 +42,7 @@ export const paramValidation = validationLayer([
     param("id").custom(id =>{
         const validId = mongoose.Types.ObjectId.isValid(id);
         if(!validId){
-            res.status(401);
+            res.status(400);
             throw new Error(`Invalid id - ${id}`);
     }
     })

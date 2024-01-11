@@ -16,7 +16,7 @@ const getAllFavNotes = async (req,res) => {
 const addNote = async (req,res) => {
     const {title,noteBody,category} = req.body;
     const newNote = {title,noteBody,category,userId:req.user.userId};
-    const savedNote = await Note.create(newNote);
+    const savedNote = await Note.create(newNote); 
     res.status(201).json({msg:"successful",savedNote})
 }
 
