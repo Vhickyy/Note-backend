@@ -17,6 +17,9 @@ const ProjectSchema = new mongoose.Schema({
     members:{
         type: [mongoose.Types.ObjectId],
         ref: "User"
+    },
+    dueDate:{
+        type: Date
     }
 },{
     timestamps: true
