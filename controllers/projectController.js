@@ -13,7 +13,6 @@ export const getAllProjects = async (req,res) => {
     const projects = await Project.find({members:{$in:[req.user.userId]}});
     res.status(200).json({msg:"successful",projects});
 }
-// owner:req.user.userId
 
 export const getSingleProject = async (req,res) => {
     const {id} = req.params;
@@ -57,40 +56,46 @@ export const deleteProject = async (req,res) => {
 
 export const updateForAddUser = async (req,res) => {
     const {id} = req.params;
-    const {memberId} = req.body;
-    console.log(memberId);
-    const user = req.body.user;
-    const memberExist = await User.findOne({_id:memberId});
+    const {email} = req.body;
+    console.log(id,email);
+    const memberExist = await User.findOne({email});
     if(!memberExist){
+        console.log("hi1");
         res.status(400);
         throw new Error("No such user, check email provided")
     }
     const project = await Project.findOne({_id:id,owner:req.user.userId});
+    
     if(!project){
         res.status(400)
         throw new Error(`No note with id ${id}`)
     }
-    console.log(user);
-    const userInProject = project.members.find(member=>member.toString() === user.toString())
+    console.log("hi");
+    const userInProject = project.members.find(member => member.toString() === memberExist._id.toString());
+    console.log(userInProject);
     if(userInProject){
-        return res.status(200).json({msg:"User already a part of this project"})
+        console.log("ji");
+        return res.status(400).json({msg:"User already a part of this project"})
     }
-    const newMembers = [...project.members,user];
-    console.log(newMembers);
+    const newMembers = [...project.members,memberExist._id];
     project.members = newMembers;
     await project.save();
+    console.log(project);
     return res.status(200).json({msg:"successful",project})
 }
 
 export const updateForDeleteUser = async (req,res) => {
     const {id} = req.params;
-    const deleteMemberId = req.body;
+    const {memberId} = req.body;
+    console.log(memberId);
     const project = await Project.findOne({_id:id,owner:req.user.userId});
     if(!project){
         res.status(400)
         throw new Error(`No note with id ${id}`)
     }
-    project.members = project.members.filter(member=> member.toString() !== deleteMemberId);
+    project.members = project.members.filter(member=> member.toString() !== memberId.toString());
+    console.log(project.members);
     await project.save();
-    return res.status(200).json({msg:"successful",project})
+    // console.log(project);
+    return res.status(200).json({msg:"successful"})
 }

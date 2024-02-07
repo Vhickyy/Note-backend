@@ -58,7 +58,6 @@ io.on("connection", socket => {
         socket.emit("get project", project.projectBody)
         socket.on("writing", async (data) => {
             socket.broadcast.to(projectId).emit("send changes", data);
-            
             // const pro = await Project.findById({_id: project._id})
             // console.log(pro);
             // try{
@@ -68,7 +67,7 @@ io.on("connection", socket => {
             // }
         });
         socket.on("save", async data => {
-            await Project.findByIdAndUpdate({_id: project._id}, {projectBody: data})
+            await Project.findByIdAndUpdate({_id: project._id}, {projectBody: data}, {new:true})
             // console.log(data);
         })
     })
