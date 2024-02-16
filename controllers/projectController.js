@@ -10,7 +10,7 @@ export const addProject = async (req,res) => {
 }
 
 export const getAllProjects = async (req,res) => {
-    const projects = await Project.find({members:{$in:[req.user.userId]}});
+    const projects = await Project.find({members:{$in:[req.user.userId]}})
     res.status(200).json({msg:"successful",projects});
 }
 
@@ -21,11 +21,15 @@ export const getSingleProject = async (req,res) => {
         res.status(400);
         throw new Error(`Invalid id - ${id}`)
     }
-    const project = await Project.findOne({_id:id,members:{$in:[req.user.userId]}});
+    const project = await Project.findOne({_id:id,members:{$in:[req.user.userId]}}).populate({
+        path: "members",
+        select: "name"
+    });
     if(!project){
         res.status(400);
         throw new Error(`No note with id ${id}`)
     }
+    console.log(project);
     res.status(200).json({msg:"successful",project})
 }
 
@@ -79,8 +83,12 @@ export const updateForAddUser = async (req,res) => {
     }
     const newMembers = [...project.members,memberExist._id];
     project.members = newMembers;
-    await project.save();
-    console.log(project);
+    await project.save()
+    // const result = (await project.save()).populate({
+    //     path: "members",
+    //     select: "name"
+    // });
+    // const data = await result
     return res.status(200).json({msg:"successful",project})
 }
 

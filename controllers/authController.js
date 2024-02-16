@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import { createOtp, hashPassword, comparePassword, createJWT } from "../utils/utils.js";
 import { sendEmail } from "../services/nodemailer.js";
+
 export const registerUser = async (req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email});
@@ -12,8 +13,10 @@ export const registerUser = async (req,res) => {
     req.body.password = await hashPassword(password);
     req.body.otpCode = otpCode;
     req.body.otpExpiry = new Date(Date.now() + (1000 * 60));
+    console.log(email);
+    await sendEmail({type:"verify",email,message:otpCode});
+    console.log("sending");
     await User.create(req.body)
-    // await sendEmail({type:"verify",email,message:otpCode});
     return res.status(201).json({msg:"User succesfully created, verify your account."});
 }
 
@@ -71,7 +74,6 @@ export const loginUser = async (req,res) => {
     return res.status(200).json({msg:"Login successful",user:sendUser});
 }
 
-
 export const logoutUser = async (req,res) => {
     res.cookie("token", "", {
         httpOnly: true,
@@ -97,4 +99,73 @@ export const resendOtp = async (req,res) => {
     await user.save();
     // await sendEmail({type:"verify",email,message:otpCode});
     return res.status(200).json({msg:"otp resent",msg:otpCode});
+}
+
+export const forgotPassword = async () => { 
+    const {email} = req.body
+    const user = await User.findOne({email});
+    if(!user){
+        res.status(400)
+        throw new Error("user does not exist")
+    }
+    if(!user.isVerified){
+        return res.status(400).user({msg:"Please verify your account before you perform this action"})
+    }
+    const otpCode = createOtp();
+    user.passwordOtp = otpCode;
+    user.passwordExpiry = new Date(Date.now() + (1000 * 60));
+    await user.save();
+    // await sendEmail({type:"verify",email,message:otpCode});
+    return res.status(200).json({msg:"otp resent",msg:otpCode});
+}
+
+export const verifyForgotPassword = async () => {
+    const {email,otpCode} = req.body;
+    const user = await User.findOne({email});
+    if(!user){
+        res.status(400);
+        throw new Error("No user with this email");
+    }
+    const isCorrectOtp = user.passwordOtp === otpCode;
+    if(!isCorrectOtp){
+        res.status(400); 
+        throw new Error("Incorrect otpCode");
+    }
+    const expiredOtp = new Date(user.passwordExpiry) < new Date(Date.now());
+    if(expiredOtp){
+        return res.status(400).json({msg:"otp expired"})
+    }
+    user.passwordOtp = "";
+    user.passwordExpiry = "";
+    await user.save()
+    return res.status(200).json({msg:"otp code correct"})
+}
+
+export const resendPasswordOtp = async (req,res) => {
+    const {email} = req.body;
+    const user = await User.findOne({email});
+    if(!user){
+        res.status(400)
+        throw new Error("user does not exist")
+    }
+    // Check if its time to resend otp here
+    const otpCode = createOtp();
+    user.otpCode = otpCode;
+    user.otpExpiry = new Date(Date.now() + (1000 * 60));
+    await user.save();
+    // await sendEmail({type:"verify",email,message:otpCode});
+    return res.status(200).json({msg:otpCode});
+}
+
+export const resetPassword = async () => {
+    const {email,password} = req.body;
+    const user = await User.findOne({email});
+    if(!user){
+        res.status(400)
+        throw new Error("user does not exist")
+    }
+    const hashedPassword = await hashPassword(password);
+    user.password =  hashedPassword;
+    await user.save();
+    return res.status(200).json({msg:"password changed successfully"});
 }

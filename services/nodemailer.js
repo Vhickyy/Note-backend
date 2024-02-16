@@ -1,12 +1,21 @@
-// import nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
+import { google } from "googleapis";
+
+const OAuth2 = google.auth.OAuth2;
+const OAuth2_Client = new OAuth2(process.env.GOOGLE_CLIENT_ID,process.env.GOOGLE_CLIENT_SECRET);
+OAuth2_Client.setCredentials({refresh_token:process.env.REFRESH_TOKEN})
 
 export const sendEmail = async ({type,email, message}) => {
+  const accessToken = await OAuth2_Client.getAccessToken()
     const transporter = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
+      service: "gmail",
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD
+        type: "OAuth2",
+        user: process.env.USER,
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: accessToken.token
       }
     });
     await transporter.sendMail({

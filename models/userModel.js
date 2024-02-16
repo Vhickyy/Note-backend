@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
     googleID: String,
     otpCode: String,
     otpExpiry: Date,
-    forgotPasswordExpiry: Date,
+    passwordOtp: String,
+    passwordExpiry: Date,
 },{
     timesStamp:true
 })
