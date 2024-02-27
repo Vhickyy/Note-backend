@@ -17,7 +17,7 @@ const appConfig = (app) => {
    app.use(cors(
       {
        origin: ["http://localhost:5173","https://veenotes.netlify.app"],
-       methods: "GET,POST,PUT,PATCH,DELETE",
+       methods: ["GET,POST,PUT,PATCH,DELETE"],
        credential:true 
    }
    ))
