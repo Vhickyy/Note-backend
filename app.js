@@ -18,7 +18,7 @@ const appConfig = (app) => {
       {
        origin: "http://localhost:5173",
        methods: "GET,POST,PUT,PATCH,DELETE",
-      //  credential:true 
+       credential:true 
    }
    ))
       .use(express.json())
