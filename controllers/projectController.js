@@ -29,7 +29,7 @@ export const getSingleProject = async (req,res) => {
         res.status(400);
         throw new Error(`No note with id ${id}`)
     }
-    console.log(project);
+    // console.log(project);
     res.status(200).json({msg:"successful",project})
 }
 

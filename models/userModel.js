@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
     otpExpiry: Date,
     passwordOtp: String,
     passwordExpiry: Date,
+    triedForgotPassword: {
+        type: Boolean,
+        default: false
+    }
 },{
     timesStamp:true
 })

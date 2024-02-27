@@ -34,6 +34,7 @@ const server = app.listen(port, async ()=>{
         process.exit(1);
     }
 })
+
 const io = new Server(server,{
     cors:{
         origin: "http://localhost:5173",
@@ -53,7 +54,7 @@ io.on("connection", socket => {
         if(!project){
             return
         }
-        console.log(project);
+        // console.log(project);
         socket.join(projectId);
         socket.emit("get project", project.projectBody)
         socket.on("writing", async (data) => {
@@ -69,6 +70,10 @@ io.on("connection", socket => {
         socket.on("save", async data => {
             await Project.findByIdAndUpdate({_id: project._id}, {projectBody: data}, {new:true})
             // console.log(data);
+        })
+        socket.on("talk", async (data) => {
+            console.log(data);
+            socket.broadcast.to(projectId).emit("talking",data)
         })
     })
 

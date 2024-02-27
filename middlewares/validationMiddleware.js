@@ -1,6 +1,7 @@
 import { body, validationResult, param } from "express-validator";
 import mongoose from "mongoose";
 const validationLayer = (validations) => {
+    // console.log("ju");
     return ([
         validations,
         (req,res,next) => {
