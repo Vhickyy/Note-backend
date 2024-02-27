@@ -40,9 +40,9 @@ const appConfig = (app) => {
       origin: (origin,callback) => {
          if(whitelist.indexOf(origin) !== -1 || !origin){
             callback(null,true)
-            // console.log("lkkk");
+            console.log("lkkk");
          }else{
-            // console.log("jijiu");
+            console.log("jijiu");
             callback(new Error("not allowed by cors"))
          }
       },
