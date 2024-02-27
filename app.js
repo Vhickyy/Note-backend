@@ -18,7 +18,7 @@ const appConfig = (app) => {
       {
        origin: ["http://localhost:5173","https://veenotes.netlify.app"],
        methods: ["GET,POST,PUT,PATCH,DELETE"],
-       credential:true 
+       credential:true,
    }
    ))
       .use(express.json())
