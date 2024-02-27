@@ -49,7 +49,7 @@ const appConfig = (app) => {
       if (whitelist.includes(origin)) {
          // console.log("kk");
           res.header('Access-Control-Allow-Credentials', true);
-         //  console.log("ll");
+          console.log("ll");
       }
       next();
   }
