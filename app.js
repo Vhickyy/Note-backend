@@ -15,7 +15,9 @@ import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
    // app.use(function (req, res, next) {
-   //    res.header("Access-Control-Allow-Origin", ["http://localhost:5173","https://veenotes.netlify.app"]);
+   //    // ,"https://veenotes.netlify.app"]
+   //    console.log(req.headers.origin);
+   //    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
    //    res.header("Access-Control-Allow-Credentials", "true");
    //    res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
    //    res.header("Access-Control-Expose-Headers", "Content-Length");
@@ -35,9 +37,16 @@ const appConfig = (app) => {
    //     credential:true,
    //    //  'Access-Control-Allow-Credentials': true
    // }
+   // app.options('/api/user', (req, res) => {
+   //    console.log("hherre");
+   //    res.header('Access-Control-Allow-Methods', 'POST');
+   //    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Include any other headers your POST request might use
+   //    res.sendStatus(200);
+   //  });
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
       origin: (origin,callback) => {
+         console.log(origin,"djjsj");
          if(whitelist.indexOf(origin) !== -1 || !origin){
             callback(null,true)
             console.log("lkkk");
@@ -46,24 +55,24 @@ const appConfig = (app) => {
             callback(new Error("not allowed by cors"))
          }
       },
-      // optionsSuccess: 200,
+      optionsSuccess: 200,
       credential:true
    }
 
    const credentials = (req, res, next) => {
       const origin = req.headers.origin;
-      console.log(origin);
+      console.log(origin, "hh");
       if (whitelist.includes(origin)) {
          // console.log("kk");
-         res.header("Access-Control-Allow-Origin", "*")
+         res.header("Access-Control-Allow-Origin", "http://localhost:5173")
           res.header('Access-Control-Allow-Credentials', true);
           console.log("ll");
       }
       next();
   }
   app.use(credentials)
+  
    app.use(cors(opt))
-   // app.options("*",opt)
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){

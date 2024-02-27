@@ -3,14 +3,14 @@ import { verifyJWT } from "../utils/utils.js";
 export const authenticated = async (req,res,next) => {
     const {token} = req.cookies;
     // console.log("here");
-    console.log(req.cookies);
+    // console.log(req.cookies);
     if(!token){
         console.log("auth error one");
         res.status(401);
         throw new Error("Unauthorized to access this route");
     }
     try {
-        console.log("here");
+        // console.log("here");
         const user = verifyJWT(token)
         req.user = user;
         // console.log(req.user);
