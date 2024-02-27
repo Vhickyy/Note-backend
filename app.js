@@ -29,14 +29,39 @@ const appConfig = (app) => {
    //      return next();
    //    }
    //  });
-   app
-   .use(cors(
-      {
-       origin: "http://localhost:5173",
-       methods: ["GET,POST,PUT,PATCH,DELETE"],
-       credential:true,
-      //  'Access-Control-Allow-Credentials': true
+   const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
+   const opt = {
+      origin: (origin,callback) => {
+         if(whitelist.indexOf(origin) !== -1 || !origin){
+            callback(null,true)
+            // console.log("lkkk");
+         }else{
+            // console.log("jijiu");
+            callback(new Error("not allowed by cors"))
+         }
+      },
+      optionsSuccess: 200,
+      credential:true
    }
+
+   const credentials = (req, res, next) => {
+      const origin = req.headers.origin;
+      if (whitelist.includes(origin)) {
+         // console.log("kk");
+          res.header('Access-Control-Allow-Credentials', true);
+         //  console.log("ll");
+      }
+      next();
+  }
+  app.use(credentials)
+   app
+   .use(cors(opt
+   //    {
+   //     origin: "http://localhost:5173",
+   //     methods: ["GET,POST,PUT,PATCH,DELETE"],
+   //     credential:true,
+   //    //  'Access-Control-Allow-Credentials': true
+   // }
    ))
       .use(express.json())
     // morgan
