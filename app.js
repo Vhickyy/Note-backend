@@ -46,7 +46,7 @@ const appConfig = (app) => {
             callback(new Error("not allowed by cors"))
          }
       },
-      optionsSuccess: 200,
+      // optionsSuccess: 200,
       credential:true
    }
 
@@ -55,6 +55,7 @@ const appConfig = (app) => {
       console.log(origin);
       if (whitelist.includes(origin)) {
          // console.log("kk");
+         res.header("Access-Control-Allow-Origin", "*")
           res.header('Access-Control-Allow-Credentials', true);
           console.log("ll");
       }
