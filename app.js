@@ -62,7 +62,7 @@ const appConfig = (app) => {
   }
   app.use(credentials)
    app.use(cors(opt))
-   // app.options("*",opt)
+   app.options("*",opt)
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
