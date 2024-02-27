@@ -52,6 +52,7 @@ const appConfig = (app) => {
 
    const credentials = (req, res, next) => {
       const origin = req.headers.origin;
+      console.log(origin);
       if (whitelist.includes(origin)) {
          // console.log("kk");
           res.header('Access-Control-Allow-Credentials', true);
@@ -61,7 +62,8 @@ const appConfig = (app) => {
   }
   app.use(credentials)
    app.use(cors(opt))
-      .use(express.json())
+   // app.options("*",opt)
+      app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
         app.use(morgan("dev"))
