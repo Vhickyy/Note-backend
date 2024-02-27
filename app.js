@@ -29,6 +29,12 @@ const appConfig = (app) => {
    //      return next();
    //    }
    //  });
+   //    {
+   //     origin: "http://localhost:5173",
+   //     methods: ["GET,POST,PUT,PATCH,DELETE"],
+   //     credential:true,
+   //    //  'Access-Control-Allow-Credentials': true
+   // }
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
       origin: (origin,callback) => {
@@ -54,15 +60,7 @@ const appConfig = (app) => {
       next();
   }
   app.use(credentials)
-   app
-   .use(cors(opt
-   //    {
-   //     origin: "http://localhost:5173",
-   //     methods: ["GET,POST,PUT,PATCH,DELETE"],
-   //     credential:true,
-   //    //  'Access-Control-Allow-Credentials': true
-   // }
-   ))
+   app.use(cors(opt))
       .use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
