@@ -21,11 +21,12 @@ const appConfig = (app) => {
    //    //  'Access-Control-Allow-Credentials': true
    // }
 
+  
    // (origin,callback) => {
    //    console.log(origin,"djjsj");
    //    if(whitelist.indexOf(origin) !== -1 || !origin){
+   //       console.log(origin,"lkkk");
    //       callback(null,true)
-   //       console.log("lkkk");
    //    }else{
    //       console.log("jijiu");
    //       callback(new Error("not allowed by cors"))
@@ -33,23 +34,14 @@ const appConfig = (app) => {
    // },
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
-      origin:  (origin,callback) => {
-            console.log(origin,"djjsj");
-            if(whitelist.indexOf(origin) !== -1 || !origin){
-               origin = "http://localhost:5173"
-               console.log(origin,"lkkk");
-               callback(null,true)
-            }else{
-               console.log("jijiu");
-               callback(new Error("not allowed by cors"))
-            }
-         },
+      origin:  "http://localhost:5173",
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
       credentials:true,
       allowedHeaders: ['Content-Type', 'Authorization']
       // preflightContinue: false
    }
+   console.log(opt.origin);
    const credentials = (req, res, next) => {
       const origin = req.headers.origin;
       // console.log(req.headers['access-control-allow-origin']);
@@ -63,7 +55,7 @@ const appConfig = (app) => {
       }
       next();
   }
-  app.use(credentials)
+//   app.use(credentials)
   app.use(cors(opt))
       app.use(express.json())
     // morgan
