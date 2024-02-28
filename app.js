@@ -14,22 +14,22 @@ import googleRouter from "./routes/googleRoute.js";
 import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
-   app.use(function (req, res, next) {
-      console.log(req.headers.origin);
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-      res.setHeader("Access-Control-Expose-Headers", "Content-Length");
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Accept, Authorization, Content-Type, X-Requested-With, Range"
-      );
-      if (req.method === "OPTIONS") {
-        return res.sendStatus(200);
-      } else {
-        return next();
-      }
-    });
+   // app.use(function (req, res, next) {
+   //    console.log(req.headers.origin);
+   //    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+   //    res.setHeader("Access-Control-Allow-Credentials", "true");
+   //    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+   //    res.setHeader("Access-Control-Expose-Headers", "Content-Length");
+   //    res.setHeader(
+   //      "Access-Control-Allow-Headers",
+   //      "Accept, Authorization, Content-Type, X-Requested-With, Range"
+   //    );
+   //    if (req.method === "OPTIONS") {
+   //      return res.sendStatus(200);
+   //    } else {
+   //      return next();
+   //    }
+   //  });
 
   
    // (origin,callback) => {
@@ -58,7 +58,7 @@ const appConfig = (app) => {
       methods: ["GET,POST,PUT,PATCH,DELETE,OPTIONS"],
       optionsSuccess: 200,
       credentials:true,
-      // allowedHeaders: ['Content-Type', 'Authorization'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
       preflightContinue: false
    }
    const credentials = (req, res, next) => {
@@ -75,7 +75,7 @@ const appConfig = (app) => {
       next();
   }
 //   app.use(credentials)
-//   app.use(cors(opt))
+  app.use(cors(opt))
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
