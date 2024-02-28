@@ -59,20 +59,20 @@ const appConfig = (app) => {
       credential:true
    }
 
-   const credentials = (req, res, next) => {
-      const origin = req.headers.origin;
-      console.log(origin, "hh");
-      if (whitelist.includes(origin)) {
-         // console.log("kk");
-         res.header("Access-Control-Allow-Origin", "http://localhost:5173")
-          res.header('Access-Control-Allow-Credentials', true);
-          console.log("ll");
-      }
-      next();
-  }
-  app.use(credentials)
+//    const credentials = (req, res, next) => {
+//       const origin = req.headers.origin;
+//       console.log(origin, "hh");
+//       if (whitelist.includes(origin)) {
+//          // console.log("kk");
+//          res.header("Access-Control-Allow-Origin", "http://localhost:5173")
+//           res.header('Access-Control-Allow-Credentials', true);
+//           console.log("ll");
+//       }
+//       next();
+//   }
+//   app.use(credentials)
   
-   app.use(cors(opt))
+   app.use(cors())
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
