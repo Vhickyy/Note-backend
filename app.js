@@ -16,11 +16,11 @@ import { authenticated } from "./middlewares/authMiddleware.js";
 const appConfig = (app) => {
    app.use(function (req, res, next) {
       console.log(req.headers.origin);
-      res.header("Access-Control-Allow-Origin", "https://veenotes.netlify.app");
-      res.header("Access-Control-Allow-Credentials", "true");
-      res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-      res.header("Access-Control-Expose-Headers", "Content-Length");
-      res.header(
+      res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+      res.setHeader("Access-Control-Expose-Headers", "Content-Length");
+      res.setHeader(
         "Access-Control-Allow-Headers",
         "Accept, Authorization, Content-Type, X-Requested-With, Range"
       );
@@ -42,14 +42,7 @@ const appConfig = (app) => {
    //       callback(new Error("not allowed by cors"))
    //    }
    // },
-   // app.options("*", (req, res,next) => {
-   //    console.log(req.headers.origin,"opui");
-   //    res.setHeader("Access-Control-Allow-Origin", "https://veenotes.netlify.app");
-   //    res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
-   //    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-   //    res.status(204);
-   //    next()
-   //  });
+   // app.
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
       origin:  (origin,callback) => {
@@ -75,7 +68,7 @@ const appConfig = (app) => {
       console.log(origin, "hh");
       if (whitelist.includes(origin) || !origin) {
          console.log("kk");
-         res.setHeader('Access-Control-Allow-Origin', "http://localhost:5173")
+         res.res.setHeader('Access-Control-Allow-Origin', "http://localhost:5173")
          //  res.header('Access-Control-Allow-Credentials', true);
           console.log("ll");
       }
