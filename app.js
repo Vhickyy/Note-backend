@@ -33,10 +33,19 @@ const appConfig = (app) => {
    // },
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
-      origin: "http://localhost:5173",
+      origin:  (origin,callback) => {
+            console.log(origin,"djjsj");
+            if(whitelist.indexOf(origin) !== -1){
+               callback(null,true)
+               console.log(origin,"lkkk");
+            }else{
+               console.log("jijiu");
+               callback(new Error("not allowed by cors"))
+            }
+         },
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
-      credential:true,
+      credentials:true,
       allowedHeaders: ['Content-Type', 'Authorization']
       // preflightContinue: false
    }
@@ -46,9 +55,9 @@ const appConfig = (app) => {
       // const origin = req.headers["access-control-allow-origin"];
       console.log(origin, "hh");
       if (whitelist.includes(origin) || !origin) {
-         // console.log("kk");
-         res.header("Access-Control-Allow-Origin", "http://localhost:5173")
-          res.header('Access-Control-Allow-Credentials', true);
+         console.log("kk");
+         res.header('Access-Control-Allow-Origin', "http://localhost:5173")
+         //  res.header('Access-Control-Allow-Credentials', true);
           console.log("ll");
       }
       next();
