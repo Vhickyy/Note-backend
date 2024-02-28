@@ -32,11 +32,13 @@ const appConfig = (app) => {
    //       callback(new Error("not allowed by cors"))
    //    }
    // },
-   app.options("*", (req, res) => {
-      res.setHeader("Access-Control-Allow-Origin", "https://example.com");
+   app.options("*", (req, res,next) => {
+      console.log(req.headers.origin,"opui");
+      res.setHeader("Access-Control-Allow-Origin", "https://veenotes.netlify.app");
       res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
       res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-      res.sendStatus(204);
+      res.status(204);
+      next()
     });
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
