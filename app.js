@@ -52,10 +52,10 @@ const appConfig = (app) => {
                callback(new Error("not allowed by cors"))
             }
          },
-      methods: ["GET,POST,PUT,PATCH,DELETE"],
+      methods: ["GET,POST,PUT,PATCH,DELETE,OPTIONS"],
       optionsSuccess: 200,
       credentials:true,
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      // allowedHeaders: ['Content-Type', 'Authorization'],
       preflightContinue: false
    }
    const credentials = (req, res, next) => {
@@ -65,7 +65,7 @@ const appConfig = (app) => {
       console.log(origin, "hh");
       if (whitelist.includes(origin) || !origin) {
          console.log("kk");
-         res.header('Access-Control-Allow-Origin', "http://localhost:5173")
+         res.setHeader('Access-Control-Allow-Origin', "http://localhost:5173")
          //  res.header('Access-Control-Allow-Credentials', true);
           console.log("ll");
       }
