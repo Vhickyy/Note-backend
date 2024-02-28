@@ -33,27 +33,27 @@ const appConfig = (app) => {
    // },
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
-      // origin: "*",
-      // methods: ["GET,POST,PUT,PATCH,DELETE"],
-      // optionsSuccess: 200,
-      // // credential:true,
-      // allowedHeaders: ['Content-Type', 'Authorization']
+      origin: "*",
+      methods: ["GET,POST,PUT,PATCH,DELETE"],
+      optionsSuccess: 200,
+      // credential:true,
+      allowedHeaders: ['Content-Type', 'Authorization']
       // preflightContinue: false
    }
-//    const credentials = (req, res, next) => {
-//       // const origin = req.headers.origin;
-//       console.log(req.headers['access-control-allow-origin']);
-//       const origin = req.headers["access-control-allow-origin"];
-//       console.log(origin, "hh");
-//       if (whitelist.includes(origin)) {
-//          // console.log("kk");
-//          res.header("Access-Control-Allow-Origin", "http://localhost:5173")
-//           res.header('Access-Control-Allow-Credentials', true);
-//           console.log("ll");
-//       }
-//       next();
-//   }
-//   app.use(credentials)
+   const credentials = (req, res, next) => {
+      // const origin = req.headers.origin;
+      console.log(req.headers['access-control-allow-origin']);
+      const origin = req.headers["access-control-allow-origin"];
+      console.log(origin, "hh");
+      if (whitelist.includes(origin)) {
+         // console.log("kk");
+         res.header("Access-Control-Allow-Origin", "http://localhost:5173")
+          res.header('Access-Control-Allow-Credentials', true);
+          console.log("ll");
+      }
+      next();
+  }
+  app.use(credentials)
   app.use(cors(opt))
 //   app.options('*', cors(opt));
       app.use(express.json())
