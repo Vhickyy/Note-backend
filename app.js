@@ -35,9 +35,10 @@ const appConfig = (app) => {
    const opt = {
       origin:  (origin,callback) => {
             console.log(origin,"djjsj");
-            if(whitelist.indexOf(origin) !== -1){
-               callback(null,true)
+            if(whitelist.indexOf(origin) !== -1 || !origin){
+               origin = "http://localhost:5173"
                console.log(origin,"lkkk");
+               callback(null,true)
             }else{
                console.log("jijiu");
                callback(new Error("not allowed by cors"))
