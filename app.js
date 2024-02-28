@@ -33,11 +33,11 @@ const appConfig = (app) => {
    // },
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
-      origin: "*",
-      methods: ["GET,POST,PUT,PATCH,DELETE"],
-      optionsSuccess: 200,
-      credential:true,
-      allowedHeaders: ['Content-Type', 'Authorization']
+      // origin: "*",
+      // methods: ["GET,POST,PUT,PATCH,DELETE"],
+      // optionsSuccess: 200,
+      // // credential:true,
+      // allowedHeaders: ['Content-Type', 'Authorization']
       // preflightContinue: false
    }
 //    const credentials = (req, res, next) => {
