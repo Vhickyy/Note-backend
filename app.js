@@ -18,7 +18,7 @@ const appConfig = (app) => {
       console.log(req.headers.origin);
       res.header("Access-Control-Allow-Origin", "https://veenotes.netlify.app");
       res.header("Access-Control-Allow-Credentials", "true");
-      res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+      res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
       res.header("Access-Control-Expose-Headers", "Content-Length");
       res.header(
         "Access-Control-Allow-Headers",
