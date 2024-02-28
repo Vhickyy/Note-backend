@@ -7,12 +7,9 @@ import "./services/passport.js"
 import {Server} from "socket.io"
 import Project from "./models/projectModel.js";
 
-// const socketio = io(8000)
-
 dotenv.config()
 const app = express();
 
-// app.use(cookieparser())
 
 // test
 app.get("/noteapi",(req,res)=>{
@@ -23,6 +20,8 @@ app.get("/api/test-user",(req,res)=>{
     // console.log(user)
     return res.status(200).json({msg:"hello world2"})
 })
+
+
 const port = process.env.PORT || 8000
 const server = app.listen(port, async ()=>{
     try {
