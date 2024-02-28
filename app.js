@@ -14,12 +14,22 @@ import googleRouter from "./routes/googleRoute.js";
 import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
-   //    {
-   //     origin: "http://localhost:5173",
-   //     methods: ["GET,POST,PUT,PATCH,DELETE"],
-   //     credential:true,
-   //    //  'Access-Control-Allow-Credentials': true
-   // }
+   app.use(function (req, res, next) {
+      console.log(req.headers.origin);
+      res.header("Access-Control-Allow-Origin", "https://veenotes.netlify.app");
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+      res.header("Access-Control-Expose-Headers", "Content-Length");
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Accept, Authorization, Content-Type, X-Requested-With, Range"
+      );
+      if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+      } else {
+        return next();
+      }
+    });
 
   
    // (origin,callback) => {
@@ -72,7 +82,7 @@ const appConfig = (app) => {
       next();
   }
 //   app.use(credentials)
-  app.use(cors(opt))
+//   app.use(cors(opt))
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
