@@ -45,7 +45,7 @@ const appConfig = (app) => {
       // console.log(req.headers['access-control-allow-origin']);
       // const origin = req.headers["access-control-allow-origin"];
       console.log(origin, "hh");
-      if (whitelist.includes(origin)) {
+      if (whitelist.includes(origin) || !origin) {
          // console.log("kk");
          res.header("Access-Control-Allow-Origin", "http://localhost:5173")
           res.header('Access-Control-Allow-Credentials', true);
