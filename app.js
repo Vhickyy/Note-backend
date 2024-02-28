@@ -37,7 +37,7 @@ const appConfig = (app) => {
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
       credential:true,
-      preflightContinue: false
+      // preflightContinue: false
    }
    const credentials = (req, res, next) => {
       // const origin = req.headers.origin;
