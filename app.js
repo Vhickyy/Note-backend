@@ -36,7 +36,7 @@ const appConfig = (app) => {
       origin: "*",
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
-      // credential:true,
+      credential:true,
       allowedHeaders: ['Content-Type', 'Authorization']
       // preflightContinue: false
    }
