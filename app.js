@@ -47,8 +47,8 @@ const appConfig = (app) => {
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
       credentials:true,
-      allowedHeaders: ['Content-Type', 'Authorization']
-      // preflightContinue: false
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      preflightContinue: false
    }
    const credentials = (req, res, next) => {
       const origin = req.headers.origin;
