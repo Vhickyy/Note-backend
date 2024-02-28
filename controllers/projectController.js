@@ -10,7 +10,8 @@ export const addProject = async (req,res) => {
 }
 
 export const getAllProjects = async (req,res) => {
-    const projects = await Project.find({members:{$in:[req.user.userId]}})
+    // const projects = await Project.find({members:{$in:[req.user.userId]}})
+    const projects = await Project.find({})
     res.status(200).json({msg:"successful",projects});
 }
 

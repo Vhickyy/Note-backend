@@ -72,7 +72,7 @@ const appConfig = (app) => {
 //   }
 //   app.use(credentials)
   
-   app.use(cors())
+   // app.use(cors())
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
@@ -95,7 +95,8 @@ const appConfig = (app) => {
        .use("/auth",googleRouter)
        .use("/api",authenticated,noteRouter)
        .use("/api",authenticated,userRouter)
-       .use("/api",authenticated,projectRouter)
+      //  .use("/api",authenticated,projectRouter)
+       .use("/api",projectRouter)
    
     // not-found and error route
     app.use("*",notFoundHandler)
