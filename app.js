@@ -37,6 +37,7 @@ const appConfig = (app) => {
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
       credential:true,
+      allowedHeaders: ['Content-Type', 'Authorization']
       // preflightContinue: false
    }
    const credentials = (req, res, next) => {
@@ -54,7 +55,7 @@ const appConfig = (app) => {
   }
 //   app.use(credentials)
   app.use(cors(opt))
-  app.options('*', cors(opt));
+//   app.options('*', cors(opt));
       app.use(express.json())
     // morgan
     if(process.env.NODE_ENV === "development"){
