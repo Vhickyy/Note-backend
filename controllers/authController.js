@@ -71,8 +71,14 @@ export const loginUser = async (req,res) => {
     res.cookie("token", token, {
         httpOnly: true,
         expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
-        secure: process.env.NODE_ENV === "production"
+        secure: true,
+        sameSite: 'none',
+        domain: "https://veenotes.netlify.app",
+        // secure: process.env.NODE_ENV === "production",
+        signed: true
     })
+    // console.log(token);
+    // console.log(res.cookie);
     return res.status(200).json({msg:"Login successful",user:sendUser});
 }
 

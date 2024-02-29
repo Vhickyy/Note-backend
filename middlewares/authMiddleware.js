@@ -1,9 +1,10 @@
 import { verifyJWT } from "../utils/utils.js";
 
 export const authenticated = async (req,res,next) => {
+    console.log(req.cookies);
     const {token} = req.cookies;
     // console.log("here");
-    console.log(req.cookies);
+    // console.log(req.cookies);
     if(!token){
         console.log("auth error one");
         res.status(401);
