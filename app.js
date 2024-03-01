@@ -14,8 +14,7 @@ import googleRouter from "./routes/googleRoute.js";
 import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
-   
-   app.use(cookieparser())
+   app.use(cookieparser(process.env.JWT_SECRET))
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
       origin:  (origin,callback) => {
@@ -53,13 +52,17 @@ const appConfig = (app) => {
        .use(passport.initialize())
        .use(passport.session());
 
+
+   //     app.get("/noteapi",(req,res)=>{
+   //       return res.status(200).json({msg:"hello world"}) 
+   //   })
     // routes
     app.use("/api",authRouter)
        .use("/auth",googleRouter)
        .use("/api",authenticated,noteRouter)
        .use("/api",authenticated,userRouter)
-      //  .use("/api",authenticated,projectRouter)
-       .use("/api",projectRouter)
+       .use("/api",authenticated,projectRouter)
+      //  .use("/api",projectRouter)
    
     // not-found and error route
     app.use("*",notFoundHandler)

@@ -12,9 +12,9 @@ const app = express();
 
 
 // test
-app.get("/noteapi",(req,res)=>{
-    return res.status(200).json({msg:"hello world"}) 
-})
+// app.get("/noteapi",(req,res)=>{
+//     return res.status(200).json({msg:"hello world"}) 
+// })
 app.get("/api/test-user",(req,res)=>{
     // const user = req.body;
     // console.log(user)
