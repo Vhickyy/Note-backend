@@ -74,7 +74,7 @@ export const loginUser = async (req,res) => {
         // secure: true,
         // sameSite: 'none',
         secure: process.env.NODE_ENV === "production",
-        // domain: "https://veenotes.netlify.app",
+        domain: "https://veenotes.netlify.app",
         signed: true
     })
     // console.log(token);
