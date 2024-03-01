@@ -72,7 +72,7 @@ export const loginUser = async (req,res) => {
         httpOnly: true,
         expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
         // secure: true,
-        // sameSite: 'none',
+        sameSite: 'None',
         secure: process.env.NODE_ENV === "production",
         // domain: "https://veenotes.netlify.app",
         signed: true
