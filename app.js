@@ -17,6 +17,7 @@ const appConfig = (app) => {
    app.use(cookieparser(process.env.JWT_SECRET))
    const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
    const opt = {
+      credentials:true,
       origin:  (origin,callback) => {
             console.log(origin,"djjsj");
             if(whitelist.indexOf(origin) !== -1 || !origin){
@@ -29,9 +30,8 @@ const appConfig = (app) => {
          },
       methods: ["GET,POST,PUT,PATCH,DELETE"],
       optionsSuccess: 200,
-      credentials:true,
       allowedHeaders: ['Content-Type', 'Authorization'],
-      preflightContinue: false
+      // preflightContinue: false
    }
    
   app.use(cors(opt))
