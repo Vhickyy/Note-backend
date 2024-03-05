@@ -74,7 +74,7 @@ export const loginUser = async (req,res) => {
         // secure: true,
         // sameSite: 'none',
         secure: process.env.NODE_ENV === "production",
-        // domain: ".netlify.app",
+        domain: ".onrender.com",
         signed: true
     })
     // console.log(token);
