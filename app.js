@@ -15,7 +15,7 @@ import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
    app.use(cookieparser(process.env.JWT_SECRET))
-   const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app,https://note-client-o1pb.onrender.com"];
+   const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app","https://note-client-o1pb.onrender.com"];
    const opt = {
       credentials:true,
       origin:  (origin,callback) => {
