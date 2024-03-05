@@ -14,7 +14,7 @@ export const registerUser = async (req,res) => {
     req.body.otpCode = otpCode;
     req.body.otpExpiry = new Date(Date.now() + (1000 * 60));
     console.log(email);
-    await sendEmail({type:"verify",email,message:otpCode});
+    // await sendEmail({type:"verify",email,message:otpCode});
     console.log("sending");
     await User.create(req.body)
     return res.status(201).json({msg:"User succesfully created, verify your account."});
@@ -72,9 +72,9 @@ export const loginUser = async (req,res) => {
         httpOnly: true,
         expires: new Date(Date.now() + (24 * 60 * 60 * 1000)),
         // secure: true,
-        sameSite: 'None',
+        // sameSite: 'none',
         secure: process.env.NODE_ENV === "production",
-        domain: ".netlify.app",
+        // domain: ".netlify.app",
         signed: true
     })
     // console.log(token);

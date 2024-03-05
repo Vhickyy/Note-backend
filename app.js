@@ -15,13 +15,13 @@ import { authenticated } from "./middlewares/authMiddleware.js";
 
 const appConfig = (app) => {
    app.use(cookieparser(process.env.JWT_SECRET))
-   const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app"];
+   const whitelist =  ["http://localhost:5173","https://veenotes.netlify.app,https://note-client-o1pb.onrender.com"];
    const opt = {
       credentials:true,
       origin:  (origin,callback) => {
-            console.log(origin,"djjsj");
+            // console.log(origin,"djjsj");
             if(whitelist.indexOf(origin) !== -1 || !origin){
-               console.log(origin,"lkkk");
+               // console.log(origin,"lkkk");
                callback(null,true)
             }else{
                console.log("jijiu");
